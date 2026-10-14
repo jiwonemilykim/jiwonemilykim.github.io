@@ -913,10 +913,10 @@ html[lang="ko"] .en, html[lang="en"] .ko{display:none !important}
   function tick(){
     const l = lang() === "en" ? "en-US" : "ko-KR", now = new Date();
     const date = new Intl.DateTimeFormat(l, {timeZone:"Asia/Seoul", month:"short", day:"numeric", weekday:"short"}).format(now);
-    const time = new Intl.DateTimeFormat(l, {timeZone:"Asia/Seoul", hour:"numeric", minute:"2-digit"}).format(now);
+    const p = new Intl.DateTimeFormat("en-GB", {timeZone:"Asia/Seoul", hour:"2-digit", minute:"2-digit", hourCycle:"h23"}).formatToParts(now);
+    const time = p.find(x => x.type==="hour").value + ":" + p.find(x => x.type==="minute").value;
     clock.textContent = `${date}  ${time}`;
-    const p = new Intl.DateTimeFormat("en-US", {timeZone:"Asia/Seoul", hour:"numeric", minute:"2-digit", hour12:true}).formatToParts(now);
-    iclock.textContent = p.find(x => x.type==="hour").value + ":" + p.find(x => x.type==="minute").value;
+    iclock.textContent = time;
   }
   setInterval(tick, 15000);
 
